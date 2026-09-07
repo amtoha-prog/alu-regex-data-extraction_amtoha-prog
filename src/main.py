@@ -48,3 +48,10 @@ for match in re.finditer(patterns['hashtag'], raw_text):
     hashtag = match.group()
     extracted_data['hashtags'].append(hashtag)
     print(f"  Found: {hashtag}")
+
+# Find all credit cards
+print("\nSearching for credit card numbers...")
+for match in re.finditer(patterns['credit_card'], raw_text):
+    card = match.group()
+    extracted_data['credit_cards'].append(card)
+    print(f"  Found: {card}")
