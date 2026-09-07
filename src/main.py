@@ -10,3 +10,41 @@ pattern = {
     'hashtag': r'#[A-Za-z0-9_]+'    
 
 }
+# Read the input file
+with open ('input/raw-text.txt', 'r') as f:
+    raw_text=f.read()
+
+extracted_data = {
+    'emails': [],
+    'phones': [],
+    'urls':[],
+    'hashtags': []
+
+}
+# Find all emails
+print("Searching for emails...")
+for match in re.finditer(patterns['email'], raw_text):
+    email = match.group()  
+    extracted_data['emails'].append(email)  
+    print(f"  Found: {email}")
+
+# Find all phone numbers
+print("\n Searching for phone numbers...")
+for match in re.finditer(patterns['phone'], raw_text):
+    phone = match.group()
+    extracted_data['phones'].append(phone)
+    print(f"  Found: {phone}")
+
+# Find all URLs
+print("\nSearching for URLs...")
+for match in re.finditer(patterns['url'], raw_text):
+    url = match.group()
+    extracted_data['urls'].append(url)
+    print(f"  Found: {url}")
+
+# Find all hashtags
+print("\nSearching for hashtags...")
+for match in re.finditer(patterns['hashtag'], raw_text):
+    hashtag = match.group()
+    extracted_data['hashtags'].append(hashtag)
+    print(f"  Found: {hashtag}")
