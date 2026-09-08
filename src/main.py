@@ -56,3 +56,11 @@ for match in re.finditer(patterns['credit_card'], raw_text):
     card = match.group()
     extracted_data['credit_cards'].append(card)
     print(f"  Found: {card}")
+
+print("Results Summary:")
+
+print (f'Emails found: {len(extracted_data["emails"])}')
+print (f'Phone numbers found: {len(extracted_data["phones"])}')
+print (f'URLs found: {len(extracted_data["urls"])}')
+print (f'Hashtags found: {len(extracted_data["hashtags"])}')
+print (f'Credit card numbers found: {len(extracted_data["credit_cards"])}')
