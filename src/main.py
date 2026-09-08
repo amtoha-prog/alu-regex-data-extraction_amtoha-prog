@@ -38,15 +38,16 @@ for match in re.finditer(patterns['phone'], raw_text):
     # Remove non-digit characters from the phone number to check its length
     digits_only = ''.join(filter(str.isdigit, phone))
 
-    # Check if the length of the digits is 16, 15, or 14 lengths for credit card numbers
-    if len(digits_only) == 16 or len(digits_only) == 15 or len(digits_only) == 14:
-        continue  #Skip this it's a credit card number
-
-    # Phone numbers should be between 7 and 15digits long
-    if len(digits_only) >= 7 and len(digits_only) <= 15:
-
+     # If it has a '+' it's probably a real phone
+    if '+' in phone:
         extracted_data['phones'].append(phone)
         print(f"  Found: {phone}")
+        
+    # Otherwise, only keep if it's 7-11 digits
+    elif len(digits_only) >= 7 and len(digits_only) <= 11:
+        extracted_data['phones'].append(phone)
+        print(f"  Found: {phone}")
+
  
 # Find all URLs
 print("\nSearching for URLs...")
