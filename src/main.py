@@ -3,12 +3,12 @@ import re
 import json
 
 # Defining regex patterns
-pattern = {
-    'email': r'\b[A-Za-z0-9.]+ @[A-Za-z0-9]+\.[A-Za-z]{2,}\b',
+patterns = {
+    'email': r'\b[A-Za-z0-9.]+@[A-Za-z0-9]+\.[A-Za-z]{2,}\b',
     'phone': r'\+?\d{1,3}[\s.-]?\(?\d{2,3}\)?[\s.-]?\d{2,4}[\s.-]?\d{2,4}',
     'url': r'https?://(?:www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:/[^\s]*)?',
-    'hashtag': r'#[A-Za-z0-9_]+'    
-
+    'hashtag': r'#[A-Za-z0-9_]+'  ,  
+    'credit_card': r'\b(?:\d{4}[-\s]?){3}\d{4}\b'
 }
 # Read the input file
 with open ('input/raw-text.txt', 'r') as f:
@@ -18,7 +18,8 @@ extracted_data = {
     'emails': [],
     'phones': [],
     'urls':[],
-    'hashtags': []
+    'hashtags': [],
+    'credit_cards': []
 
 }
 # Find all emails
