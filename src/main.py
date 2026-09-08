@@ -67,8 +67,16 @@ for match in re.finditer(patterns['hashtag'], raw_text):
 print("\nSearching for credit card numbers...")
 for match in re.finditer(patterns['credit_card'], raw_text):
     card = match.group()
-    extracted_data['credit_cards'].append(card)
-    print(f"  Found: {card}")
+    # Get just the digits
+    digits_only = ''.join(c for c in card if c.isdigit())
+    
+    # Credit card should be 13-19 digits
+    if len(digits_only) >= 13 and len(digits_only) <= 19:
+        # HIDE the card number for security and show only the last 4 digits
+        redacted = '*' * (len(digits_only) - 4) + digits_only[-4:]
+        
+        extracted_data['credit_cards'].append(redacted)
+        print(f"  Found: {redacted} (redacted for security)")
 
 
 print("Results Summary:")
