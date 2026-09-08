@@ -1,6 +1,7 @@
 import re
 
 import json
+from string import digits
 
 # Defining regex patterns
 patterns = {
@@ -8,7 +9,7 @@ patterns = {
     'phone': r'\+?\d{1,3}[\s.-]?\(?\d{2,3}\)?[\s.-]?\d{2,4}[\s.-]?\d{2,4}',
     'url': r'https?://(?:www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:/[^\s]*)?',
     'hashtag': r'#[A-Za-z0-9_]+'  ,  
-    'credit_card': r'\b(?:\d{4}[-\s]?){3}\d{4}\b'
+    'credit_card': r'\b(?:\d{4}[-\s.]?){3}\d{4}\b'
 }
 # Read the input file
 with open ('input/raw-text.txt', 'r') as f:
@@ -33,9 +34,20 @@ for match in re.finditer(patterns['email'], raw_text):
 print("\n Searching for phone numbers...")
 for match in re.finditer(patterns['phone'], raw_text):
     phone = match.group()
-    extracted_data['phones'].append(phone)
-    print(f"  Found: {phone}")
 
+    # Remove non-digit characters from the phone number to check its length
+    digits_only = ''.join(filter(str.isdigit, phone))
+
+    # Check if the length of the digits is 16, 15, or 14 lengths for credit card numbers
+    if len(digits_only) == 16 or len(digits_only) == 15 or len(digits_only) == 14:
+        continue  #Skip this it's a credit card number
+
+    # Phone numbers should be between 7 and 15digits long
+    if len(digits_only) >= 7 and len(digits_only) <= 15:
+
+        extracted_data['phones'].append(phone)
+        print(f"  Found: {phone}")
+ 
 # Find all URLs
 print("\nSearching for URLs...")
 for match in re.finditer(patterns['url'], raw_text):
@@ -57,7 +69,10 @@ for match in re.finditer(patterns['credit_card'], raw_text):
     extracted_data['credit_cards'].append(card)
     print(f"  Found: {card}")
 
+
 print("Results Summary:")
+
+print("\n" + "=" * 50)
 
 print (f'Emails found: {len(extracted_data["emails"])}')
 print (f'Phone numbers found: {len(extracted_data["phones"])}')
@@ -65,10 +80,12 @@ print (f'URLs found: {len(extracted_data["urls"])}')
 print (f'Hashtags found: {len(extracted_data["hashtags"])}')
 print (f'Credit card numbers found: {len(extracted_data["credit_cards"])}')
 
+print("\n" + "=" * 50)
+
 print("Saving results to JSON file...")
 # Convert the JSON dictionary and save it
 
 with open('output/sample-output.json', 'w') as f:
-    json.dump(extracted_data, f)
+    json.dump(extracted_data, f, indent=2)
 
 print("Done! Results saved to: output/sample-output.json")
