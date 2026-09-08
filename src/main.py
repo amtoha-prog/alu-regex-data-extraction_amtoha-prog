@@ -64,3 +64,11 @@ print (f'Phone numbers found: {len(extracted_data["phones"])}')
 print (f'URLs found: {len(extracted_data["urls"])}')
 print (f'Hashtags found: {len(extracted_data["hashtags"])}')
 print (f'Credit card numbers found: {len(extracted_data["credit_cards"])}')
+
+print("Saving results to JSON file...")
+# Convert the JSON dictionary and save it
+
+with open('output/sample-output.json', 'w') as f:
+    json.dump(extracted_data, f)
+
+print("Done! Results saved to: output/sample-output.json")
